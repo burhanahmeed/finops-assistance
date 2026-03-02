@@ -15,6 +15,7 @@ import {
   generatePieChartTool,
   generateDashboardTool,
 } from "../tools/charts";
+import { memory } from "../memory";
 
 export const financeOpsAgent = new Agent({
   id: "finance-ops",
@@ -135,8 +136,10 @@ INGAT:
     const google = createGoogleGenerativeAI({
       apiKey: process.env.GEMINI_API_KEY || "",
     });
+    // Try gemini-2.0-flash-exp as it's more stable with Mastra
     return google("gemini-2.5-flash");
   },
+  memory,
   tools: {
     getMayarTransactions: getMayarTransactionsTool,
     getMayarInvoices: getMayarInvoicesTool,

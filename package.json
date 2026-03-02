@@ -16,6 +16,7 @@
     "@ai-sdk/google": "^3.0.34",
     "@ai-sdk/openai": "^1.0.0",
     "@mastra/core": "^1.8.0",
+    "@mastra/memory": "^1.5.2",
     "ai": "^4.0.0",
     "better-sqlite3": "^11.7.0",
     "drizzle-orm": "^0.36.4",

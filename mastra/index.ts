@@ -1,10 +1,8 @@
 import { Mastra } from "@mastra/core";
 import { financeOpsAgent } from "./agents/financeOps";
-import { InMemoryStore } from "@mastra/core/storage";
+import { storage, memory } from "./memory";
 
-// Create in-memory storage for conversation memory
-// This will persist conversations during the session
-const storage = new InMemoryStore();
+export { memory } from "./memory";
 
 export const mastra = new Mastra({
   agents: { financeOps: financeOpsAgent },
