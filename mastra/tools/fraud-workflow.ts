@@ -22,9 +22,12 @@ export const fraudDetectionWorkflow = createTool({
     limit: z.number().optional().default(500).describe("Maximum number of transactions to fetch"),
     lookbackDays: z.number().optional().default(7).describe("Number of days to look back for fraud analysis"),
   }),
-  execute: async ({ apiKey, useMockData = false, limit = 500, lookbackDays = 7 }) => {
+  execute: async ({ apiKey, useMockData, limit = 500, lookbackDays = 7 }) => {
     // Step 1: Fetch transaction data from Mayar API
-    const client = createMayarClient(apiKey || "", useMockData);
+    // Check environment variable for mock data setting, or use the parameter
+    const envUseMock = process.env.USE_MOCK_MAYAR_DATA === "true";
+    const shouldUseMock = useMockData ?? envUseMock ?? !apiKey;
+    const client = createMayarClient(apiKey || "", shouldUseMock);
     const transactions = await client.getTransactions(1, limit);
 
     if (transactions.length === 0) {

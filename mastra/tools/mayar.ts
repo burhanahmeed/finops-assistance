@@ -17,8 +17,9 @@ export const getMayarTransactionsTool = createTool({
     const { page, limit, apiKey, useMockData } = inputData;
     // Use provided API key, or fall back to environment variable
     const effectiveApiKey = apiKey || process.env.MAYAR_API_KEY || "";
-    // If no API key is available and mock data is not requested, use mock data as fallback
-    const shouldUseMock = useMockData || !effectiveApiKey;
+    // Check environment variable for mock data setting, or use the parameter, or fallback to true if no API key
+    const envUseMock = process.env.USE_MOCK_MAYAR_DATA === "true";
+    const shouldUseMock = useMockData ?? envUseMock ?? !effectiveApiKey;
     const client = createMayarClient(effectiveApiKey, shouldUseMock);
     const data = await client.getTransactions(page, limit);
     return {
@@ -40,7 +41,8 @@ export const getMayarInvoicesTool = createTool({
   execute: async (inputData) => {
     const { page, limit, apiKey, useMockData } = inputData;
     const effectiveApiKey = apiKey || process.env.MAYAR_API_KEY || "";
-    const shouldUseMock = useMockData || !effectiveApiKey;
+    const envUseMock = process.env.USE_MOCK_MAYAR_DATA === "true";
+    const shouldUseMock = useMockData ?? envUseMock ?? !effectiveApiKey;
     const client = createMayarClient(effectiveApiKey, shouldUseMock);
     const data = await client.getInvoices(page, limit);
     return {
@@ -60,7 +62,8 @@ export const getMayarProductsTool = createTool({
   execute: async (inputData) => {
     const { apiKey, useMockData } = inputData;
     const effectiveApiKey = apiKey || process.env.MAYAR_API_KEY || "";
-    const shouldUseMock = useMockData || !effectiveApiKey;
+    const envUseMock = process.env.USE_MOCK_MAYAR_DATA === "true";
+    const shouldUseMock = useMockData ?? envUseMock ?? !effectiveApiKey;
     const client = createMayarClient(effectiveApiKey, shouldUseMock);
     const data = await client.getProducts();
     return {
@@ -80,7 +83,8 @@ export const getMayarSubscriptionsTool = createTool({
   execute: async (inputData) => {
     const { apiKey, useMockData } = inputData;
     const effectiveApiKey = apiKey || process.env.MAYAR_API_KEY || "";
-    const shouldUseMock = useMockData || !effectiveApiKey;
+    const envUseMock = process.env.USE_MOCK_MAYAR_DATA === "true";
+    const shouldUseMock = useMockData ?? envUseMock ?? !effectiveApiKey;
     const client = createMayarClient(effectiveApiKey, shouldUseMock);
     const data = await client.getSubscriptions();
     return {
@@ -100,7 +104,8 @@ export const syncMayarDataTool = createTool({
   execute: async (inputData) => {
     const { apiKey, useMockData } = inputData;
     const effectiveApiKey = apiKey || process.env.MAYAR_API_KEY || "";
-    const shouldUseMock = useMockData || !effectiveApiKey;
+    const envUseMock = process.env.USE_MOCK_MAYAR_DATA === "true";
+    const shouldUseMock = useMockData ?? envUseMock ?? !effectiveApiKey;
     const client = createMayarClient(effectiveApiKey, shouldUseMock);
     const transactionData = await client.getTransactions(1, 1000);
 

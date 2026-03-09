@@ -27,11 +27,12 @@ import type { MayarTransaction } from "@/types/mayar";
  * Used internally by chart tools
  * Falls back to environment variable if apiKey is not provided
  */
-async function fetchTransactions(apiKey?: string, useMockData = false): Promise<MayarTransaction[]> {
+async function fetchTransactions(apiKey?: string, useMockData?: boolean): Promise<MayarTransaction[]> {
   // Use provided API key, or fall back to environment variable
   const effectiveApiKey = apiKey || process.env.MAYAR_API_KEY || "";
-  // If no API key is available and mock data is not requested, use mock data as fallback
-  const shouldUseMock = useMockData || !effectiveApiKey;
+  // Check environment variable for mock data setting, or use the parameter, or fallback to true if no API key
+  const envUseMock = process.env.USE_MOCK_MAYAR_DATA === "true";
+  const shouldUseMock = useMockData ?? envUseMock ?? !effectiveApiKey;
   const client = createMayarClient(effectiveApiKey, shouldUseMock);
   return await client.getTransactions(1, 500);
 }
