@@ -18,7 +18,7 @@ export const fraudDetectionWorkflow = createTool({
   description: "Multi-step workflow: fetch Mayar transaction data via API, then detect fraud (no database queries)",
   inputSchema: z.object({
     apiKey: z.string().optional().describe("Mayar API key (optional, will use env var if not provided)"),
-    useMockData: z.boolean().optional().default(false).describe("Use mock data for testing"),
+    useMockData: z.boolean().optional().describe("Use mock data for testing"),
     limit: z.number().optional().default(500).describe("Maximum number of transactions to fetch"),
     lookbackDays: z.number().optional().default(7).describe("Number of days to look back for fraud analysis"),
   }),

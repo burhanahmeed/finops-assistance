@@ -52,12 +52,12 @@ export const generateLineChartTool = createTool({
   - Transaction volume over time`,
   inputSchema: z.object({
     apiKey: z.string().optional().describe("Mayar API key (uses env var if not provided)"),
-    useMockData: z.boolean().optional().default(false).describe("Use mock data for testing"),
+    useMockData: z.boolean().optional().describe("Use mock data for testing"),
     timePeriod: z.enum(["day", "week", "month"]).default("day").describe("Grouping period for the time series"),
     limit: z.number().default(30).describe("Number of periods to show (e.g., 30 for 30 days)"),
     title: z.string().optional().describe("Chart title"),
   }),
-  execute: async ({ apiKey, useMockData = false, timePeriod = "day", limit = 30, title = "Tren Revenue" }) => {
+  execute: async ({ apiKey, useMockData, timePeriod = "day", limit = 30, title = "Tren Revenue" }) => {
     // Fetch transactions internally
     const transactions = await fetchTransactions(apiKey, useMockData);
 
@@ -90,12 +90,12 @@ export const generateBarChartTool = createTool({
   - Status distributions`,
   inputSchema: z.object({
     apiKey: z.string().optional().describe("Mayar API key (uses env var if not provided)"),
-    useMockData: z.boolean().optional().default(false).describe("Use mock data for testing"),
+    useMockData: z.boolean().optional().describe("Use mock data for testing"),
     groupBy: z.enum(["product", "paymentMethod", "status"]).default("product").describe("What to group by"),
     limit: z.number().default(10).describe("Maximum number of bars to show"),
     title: z.string().optional().describe("Chart title"),
   }),
-  execute: async ({ apiKey, useMockData = false, groupBy = "product", limit = 10, title }) => {
+  execute: async ({ apiKey, useMockData, groupBy = "product", limit = 10, title }) => {
     // Fetch transactions internally
     const transactions = await fetchTransactions(apiKey, useMockData);
 
@@ -133,11 +133,11 @@ export const generatePieChartTool = createTool({
   - "Bagaimana distribusi..."`,
   inputSchema: z.object({
     apiKey: z.string().optional().describe("Mayar API key (uses env var if not provided)"),
-    useMockData: z.boolean().optional().default(false).describe("Use mock data for testing"),
+    useMockData: z.boolean().optional().describe("Use mock data for testing"),
     category: z.enum(["product", "paymentMethod", "status"]).default("paymentMethod").describe("Category to distribute"),
     title: z.string().optional().describe("Chart title"),
   }),
-  execute: async ({ apiKey, useMockData = false, category = "paymentMethod", title }) => {
+  execute: async ({ apiKey, useMockData, category = "paymentMethod", title }) => {
     // Fetch transactions internally
     const transactions = await fetchTransactions(apiKey, useMockData);
 
@@ -174,12 +174,12 @@ export const generateDashboardTool = createTool({
   - Financial health check`,
   inputSchema: z.object({
     apiKey: z.string().optional().describe("Mayar API key (uses env var if not provided)"),
-    useMockData: z.boolean().optional().default(false).describe("Use mock data for testing"),
+    useMockData: z.boolean().optional().describe("Use mock data for testing"),
     timePeriod: z.enum(["day", "week", "month"]).default("day").describe("Grouping period for trend chart"),
     title: z.string().optional().describe("Dashboard title"),
     description: z.string().optional().describe("Dashboard description"),
   }),
-  execute: async ({ apiKey, useMockData = false, timePeriod = "day", title = "Dashboard Keuangan", description = "Overview performa keuangan bisnis Anda" }) => {
+  execute: async ({ apiKey, useMockData, timePeriod = "day", title = "Dashboard Keuangan", description = "Overview performa keuangan bisnis Anda" }) => {
     // Fetch transactions internally
     const transactions = await fetchTransactions(apiKey, useMockData);
 

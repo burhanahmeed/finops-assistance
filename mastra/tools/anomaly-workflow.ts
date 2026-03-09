@@ -18,7 +18,7 @@ export const anomalyDetectionWorkflow = createTool({
   description: "Multi-step workflow: fetch Mayar transaction data via API, then detect anomalies (no database queries)",
   inputSchema: z.object({
     apiKey: z.string().optional().describe("Mayar API key (optional, will use env var if not provided)"),
-    useMockData: z.boolean().optional().default(false).describe("Use mock data for testing"),
+    useMockData: z.boolean().optional().describe("Use mock data for testing"),
     limit: z.number().optional().default(500).describe("Maximum number of transactions to fetch"),
   }),
   execute: async ({ apiKey, useMockData, limit = 500 }) => {

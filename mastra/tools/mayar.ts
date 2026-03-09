@@ -11,7 +11,7 @@ export const getMayarTransactionsTool = createTool({
     page: z.number().optional().default(1),
     limit: z.number().optional().default(100),
     apiKey: z.string().optional(),
-    useMockData: z.boolean().optional().default(false),
+    useMockData: z.boolean().optional(),
   }),
   execute: async (inputData) => {
     const { page, limit, apiKey, useMockData } = inputData;
@@ -36,7 +36,7 @@ export const getMayarInvoicesTool = createTool({
     page: z.number().optional().default(1),
     limit: z.number().optional().default(100),
     apiKey: z.string().optional(),
-    useMockData: z.boolean().optional().default(false),
+    useMockData: z.boolean().optional(),
   }),
   execute: async (inputData) => {
     const { page, limit, apiKey, useMockData } = inputData;
@@ -57,7 +57,7 @@ export const getMayarProductsTool = createTool({
   description: "Fetch payment links/products from Mayar API",
   inputSchema: z.object({
     apiKey: z.string().optional(),
-    useMockData: z.boolean().optional().default(false),
+    useMockData: z.boolean().optional(),
   }),
   execute: async (inputData) => {
     const { apiKey, useMockData } = inputData;
@@ -78,7 +78,7 @@ export const getMayarSubscriptionsTool = createTool({
   description: "Fetch subscriptions from Mayar API",
   inputSchema: z.object({
     apiKey: z.string().optional(),
-    useMockData: z.boolean().optional().default(false),
+    useMockData: z.boolean().optional(),
   }),
   execute: async (inputData) => {
     const { apiKey, useMockData } = inputData;
@@ -99,7 +99,7 @@ export const syncMayarDataTool = createTool({
   description: "Sync all Mayar transaction data to local SQLite database",
   inputSchema: z.object({
     apiKey: z.string().optional(),
-    useMockData: z.boolean().optional().default(false),
+    useMockData: z.boolean().optional(),
   }),
   execute: async (inputData) => {
     const { apiKey, useMockData } = inputData;
