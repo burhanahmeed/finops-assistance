@@ -1,94 +1,141 @@
-# Mayar Merchant Assistant
+# FinanceOps AI Agent
 
-A ChatGPT-like interface for Mayar merchants to manage products and view transaction summaries using natural language.
+An AI-powered CFO assistant for Indonesian MSMEs (UMKM) that monitors financial data from [Mayar.id](https://mayar.id), detects anomalies and fraud, and provides actionable business insights using natural language.
 
 ## Features
 
-- Natural language product management (create, update, delete)
-- Transaction summaries with visualizations
-- CSV bulk product import
-- Slash command palette
-- Chat history persistence
+- 🤖 **Natural Language Interface** - Chat with your AI CFO in Bahasa Indonesia
+- 📊 **Interactive Charts** - Line, bar, and pie charts for data visualization
+- 🔍 **Anomaly Detection** - Automatically detects unusual patterns in transactions
+- 🛡️ **Fraud Detection** - Identifies potentially fraudulent transactions
+- 📈 **Dashboard Views** - Comprehensive financial overview with multiple charts
+- 💾 **Conversation Memory** - Remembers context across chat sessions
+- 🎯 **Streaming Responses** - Real-time streaming of AI responses with visible thinking process
 
 ## Tech Stack
 
 **Frontend:**
-- React + Vite
-- PapaParse (CSV parsing)
+- Next.js 16 + React 19
+- Tailwind CSS
 - Recharts (data visualization)
 
 **Backend:**
-- Node.js + Fastify
-- Gemini SDK (LLM with function calling)
-- Mayar MCP client
+- Mastra (AI agent framework)
+- Google AI SDK (Gemini 2.5 Flash)
+- Drizzle ORM + SQLite
+
+**AI/ML:**
+- Chain-of-thought reasoning
+- Tool-calling architecture
+- Thread-based conversation memory
 
 ## Project Structure
 
 ```
-mayar-merchant-assistant/
-├── frontend/                  # React app
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Auth/         # API key setup
-│   │   │   ├── Chat/         # Chat interface
-│   │   │   ├── Results/      # Product cards & charts
-│   │   │   └── Layout/       # App shell
-│   │   ├── hooks/            # React hooks
-│   │   ├── services/         # API client
-│   │   └── main.jsx
-│   └── package.json
+financeops-agent/
+├── app/                      # Next.js app router
+│   ├── api/agent/           # Agent API endpoint
+│   ├── layout.tsx
+│   └── page.tsx             # Chat interface
 │
-└── backend/                   # Node.js + Fastify
-    ├── src/
-    │   ├── routes/           # API endpoints
-    │   ├── services/         # Gemini & Mayar MCP
-    │   ├── tools/            # LLM tool definitions
-    │   └── server.js
-    └── package.json
+├── mastra/                   # AI agent configuration
+│   ├── agents/
+│   │   └── financeOps.ts    # Main agent definition
+│   ├── tools/               # AI tools
+│   │   ├── mayar.ts         # Mayar API integration
+│   │   ├── anomaly.ts       # Anomaly detection
+│   │   ├── fraud.ts         # Fraud detection
+│   │   ├── report.ts        # Report generation
+│   │   └── charts.ts        # Chart generation tools
+│   ├── memory.ts            # Conversation memory
+│   └── index.ts
+│
+├── db/                       # Database
+│   ├── schema.ts            # Drizzle schema
+│   └── index.ts
+│
+└── components/               # React components
+    ├── MarkdownMessage.tsx
+    ├── ThinkingBlock.tsx
+    ├── ToolExecution.tsx
+    └── charts/              # Chart components
 ```
 
 ## Setup
 
-### Backend
+### Prerequisites
+- Node.js 18+
+- Gemini API key ([Get one here](https://aistudio.google.com/app/apikey))
+- Mayar API key (optional - mock mode available)
+
+### Installation
 
 ```bash
-cd backend
+# Install dependencies
 npm install
-cp .env.example .env
+
+# Set up environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your API keys
+
+# Run database migrations
+npm run db:migrate
+
+# Start development server
 npm run dev
 ```
 
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
+The app will be available at [http://localhost:3000](http://localhost:3000)
 
 ## Usage
 
-1. Enter your Mayar API key and Gemini API key
-2. Start chatting with the assistant
-3. Use `/` to see available commands
-4. Drag and drop CSV files to bulk import products
+1. **Configure API Keys**
+   - Click the settings icon (⚙️) in the top right
+   - Enter your Gemini API key (required)
+   - Optionally enter your Mayar API key, or enable mock mode for testing
 
-## Available Commands
+2. **Start Chatting**
+   - Ask questions in natural language (Bahasa Indonesia or English)
+   - Example queries:
+     - "Bagaimana performa penjualan 7 hari terakhir?"
+     - "Cek ada anomali tidak?"
+     - "Tampilkan dashboard keuangan"
+     - "Produk apa yang paling laku?"
 
-- `/create_product` - Create a new product
-- `/update_product` - Update an existing product
-- `/delete_product` - Delete a product
-- `/transaction_summary` - View transaction summary
+3. **View Results**
+   - The AI shows its thinking process before answering
+   - Charts are rendered inline in the chat
+   - Tool executions are visible for transparency
 
-## Development Phases
+## AI Tools
 
-This project was built in 7 phases:
-1. Scaffold & Auth
-2. Backend Setup
-3. Tool Definitions
-4. Chat Interface
-5. CSV Product Import
-6. Transaction Summary UI
-7. Polish & Error Handling
+The agent has access to these tools:
 
-See `plan.md` for detailed implementation plan.
+| Tool | Description |
+|------|-------------|
+| `getMayarTransactions` | Fetch transaction data from Mayar |
+| `getMayarInvoices` | Fetch invoice data |
+| `getMayarProducts` | Fetch product catalog |
+| `getMayarSubscriptions` | Fetch subscription data |
+| `detectAnomalies` | Detect unusual patterns |
+| `detectFraud` | Identify suspicious transactions |
+| `generateLineChart` | Create trend visualization |
+| `generateBarChart` | Create comparison charts |
+| `generatePieChart` | Create distribution charts |
+| `generateDashboard` | Generate multi-chart dashboard |
+
+## Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run db:generate  # Generate DB migrations
+npm run db:migrate   # Run migrations
+npm run db:studio    # Open Drizzle Studio
+npm run db:seed      # Seed database with sample data
+```
+
+## Development
+
+See [plan.md](plan.md) for detailed implementation notes and [prd.md](prd.md) for the product requirements document.
