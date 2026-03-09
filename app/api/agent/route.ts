@@ -224,7 +224,6 @@ export async function POST(req: NextRequest) {
     // Store the original API keys to restore later
     const originalGeminiKey = process.env.GEMINI_API_KEY;
     const originalMayarKey = process.env.MAYAR_API_KEY;
-    const originalUseMockMayarData = process.env.USE_MOCK_MAYAR_DATA;
 
     process.env.GEMINI_API_KEY = geminiApiKey;
     // Set Mayar API key if provided (for tools to use)
@@ -232,7 +231,7 @@ export async function POST(req: NextRequest) {
       process.env.MAYAR_API_KEY = mayarApiKey;
     }
     // Set useMockMayarData setting for tools to use
-    process.env.USE_MOCK_MAYAR_DATA = String(settings?.useMockMayarData === true);
+    process.env.USE_MOCK_MAYAR_DATA = settings?.useMockMayarData ? "true" : "false";
 
     // Create SSE stream
     const encoder = new TextEncoder();
@@ -424,10 +423,9 @@ export async function POST(req: NextRequest) {
           await new Promise((resolve) => setTimeout(resolve, 200));
           controller.close();
         } finally {
-          // Restore the original API keys and settings
+          // Restore the original API keys
           process.env.GEMINI_API_KEY = originalGeminiKey;
           process.env.MAYAR_API_KEY = originalMayarKey;
-          process.env.USE_MOCK_MAYAR_DATA = originalUseMockMayarData;
         }
       },
     });
